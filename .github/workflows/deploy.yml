@@ -1,0 +1,33 @@
+name: CI/CD Azure
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build Docker
+        run: docker build -t estoque_hospital:${{ github.sha }} .
+
+      - name: Push para ACR
+        run: |
+          az acr login --name <NOME_DO_ACR>
+          docker tag estoque_hospital:${{ github.sha }} <NOME_DO_ACR>.azurecr.io/estoque_hospital:${{ github.sha}}
+          docker push <NOME_DO_ACR>.azurecr.io/estoque_hospital:${{ github.sha}}
+
+      - name: Deploy Web App
+        run: |
+          az webapp config container set \
+            --name <NOME_DO_WEBAPP> \
+            --resource-group <RESOURCE_GROUP> \
+            --docker-custom-image-name <NOME_DO_ACR>.azurecr.io/estoque_hospital:${{ github.sha}}

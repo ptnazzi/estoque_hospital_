@@ -37,9 +37,6 @@ Sistema completo de controle de estoque com autenticação, logs e administraç�
 
 ## 🎯 Como Usar
 
-### **Acessar o Sistema**
-- **URL:**(https://estoquetihosp-f011be87ebfd.herokuapp.com/login)
-
 ### **Credenciais Padrão**
 - **Usuário:** `usuario1` / `senha123`
 

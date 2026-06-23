@@ -10,9 +10,9 @@ from urllib.parse import urlparse
 app = Flask(__name__)
 app.secret_key = 'chave-secreta-estoque'
 
-# Configuração do banco de dados para Heroku ou local
-if 'DATABASE_URL' in os.environ:
-    url = urlparse(os.environ['DATABASE_URL'])
+# Configuração do banco de dados para Azure (via GitHub Secrets)
+if 'DB_CONNECTION_STRING' in os.environ:
+    url = urlparse(os.environ['DB_CONNECTION_STRING'])
     DB_CONFIG = {
         'host': url.hostname,
         'port': url.port,

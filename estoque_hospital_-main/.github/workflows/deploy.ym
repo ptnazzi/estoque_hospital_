@@ -1,4 +1,4 @@
-name: Deploy to Azure Web App
+name: Build and Deploy to Azure
 
 on:
   push:
@@ -31,3 +31,5 @@ jobs:
         with:
           app-name: estoque-hospital-web
           images: hospital.azurecr.io/estoque-hospital:latest
+        env:
+          DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}

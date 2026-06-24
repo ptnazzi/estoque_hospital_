@@ -21,13 +21,13 @@ jobs:
 
       - name: Push para ACR
         run: |
-          az acr login --name <NOME_DO_ACR>
-          docker tag estoque_hospital:${{ github.sha }} <NOME_DO_ACR>.azurecr.io/estoque_hospital:${{ github.sha}}
-          docker push <NOME_DO_ACR>.azurecr.io/estoque_hospital:${{ github.sha}}
+          az acr login --name estoquehospitalacr
+          docker tag estoque_hospital:${{ github.sha }} estoquehospitalacr.azurecr.io/estoque_hospital:${{ github.sha }}
+          docker push estoquehospitalacr.azurecr.io/estoque_hospital:${{ github.sha }}
 
       - name: Deploy Web App
         run: |
           az webapp config container set \
-            --name <NOME_DO_WEBAPP> \
-            --resource-group <RESOURCE_GROUP> \
-            --docker-custom-image-name <NOME_DO_ACR>.azurecr.io/estoque_hospital:${{ github.sha}}
+            --name estoquehospitalwebapp \
+            --resource-group estoquehospital-rg \
+            --docker-custom-image-name estoquehospitalacr.azurecr.io/estoque_hospital:${{ github.sha }}

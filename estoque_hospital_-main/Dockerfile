@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
-# 🔧 Instalar dependências do sistema necessárias para psycopg2 e builds Python
-RUN apt-get update && apt-get install -y \
+# Instalar dependências do sistema necessárias para psycopg2
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     gcc \
     python3-dev \
@@ -10,18 +10,15 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# 📦 Copiar e instalar dependências Python
+# Copiar e instalar dependências Python
 COPY requirements.txt .
 RUN pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 📁 Copiar o restante do código
+# Copiar o restante do código
 COPY . .
 
 EXPOSE 8000
 
-# 🚀 Se for Flask
+# Comando padrão para Flask
 CMD ["python", "app.py"]
-
-# Se for Django, substitua por:
-# CMD ["gunicorn", "estoque_hospital.wsgi:application", "--bind", "0.0.0.0:8000"]
